@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        generic {
+            keyAlias 'DevSaki'
+            keyPassword '12345678'
+            storeFile file('../generic.jks')
+            storePassword '12345678'
+        }
+    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        testApplicationId "com.udacity.gradle.builditbigger"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.generic
+        }
+        debug {
+            signingConfig signingConfigs.generic
+        }
+    }
+    productFlavors {
+        free {
+            applicationId "com.udacity.gradle.builditbigger.free"
+            signingConfig signingConfigs.generic
+        }
+        paid {
+            applicationId "com.udacity.gradle.builditbigger.paid"
+            signingConfig signingConfigs.generic
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':JokerAndroidLib')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile project(path: ':JokerGCE', configuration: 'android-endpoints')
+    // Added for AdMob
+    freeCompile 'com.google.android.gms:play-services-ads:8.4.0'
+}
