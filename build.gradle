@@ -17,3 +17,13 @@ allprojects {
         jcenter()
     }
 }
+
+
+//Needs Gradle Daemon
+task configureTestTask(){
+    dependsOn = [':JokerGCE:appengineRun', ':app:connectedAndroidTest']
+    finalizedBy ':JokerGCE:appengineStop'
+    doLast {
+        println 'Tests completed!'
+    }
+}
